@@ -2,7 +2,7 @@
   "name": "analytics.js-integration-outbound",
   "repo": "segment-integrations/analytics.js-integration-outbound",
   "description": "The Outbound analytics.js integration.",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "license": "MIT",
   "main": "lib/index.js",
   "dependencies": {
