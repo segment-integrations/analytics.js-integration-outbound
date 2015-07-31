@@ -87,7 +87,8 @@ describe('Outbound', function() {
           firstName: 'test',
           lastName: 'user',
           phone: '+14155551234',
-          username: 'testUser'
+          username: 'testUser',
+          genericTrait: 'traitValue'
         };
         var attributes = {
           email: 'testing@outbound.io',
@@ -95,7 +96,32 @@ describe('Outbound', function() {
           lastName: 'user',
           phoneNumber: '+14155551234',
           attributes: {
-            username: 'testUser'
+            username: 'testUser',
+            genericTrait: 'traitValue'
+          }
+        };
+
+        analytics.identify('user123', testTraits);
+        analytics.called(window.outbound.identify, 'user123', attributes);
+      });
+
+      it('should send omit top-level traits from attributes', function() {
+        var testTraits = {
+          Email: 'testing@outbound.io',
+          FirstName: 'test',
+          lastName: 'user',
+          phone: '+14155551234',
+          username: 'testUser',
+          genericTrait: 'traitValue'
+        };
+        var attributes = {
+          email: 'testing@outbound.io',
+          firstName: 'test',
+          lastName: 'user',
+          phoneNumber: '+14155551234',
+          attributes: {
+            username: 'testUser',
+            genericTrait: 'traitValue'
           }
         };
 
