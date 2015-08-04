@@ -23,7 +23,6 @@ describe('Outbound', function() {
   afterEach(function() {
     analytics.restore();
     analytics.reset();
-    outbound.reset();
     sandbox();
   });
 
@@ -46,14 +45,17 @@ describe('Outbound', function() {
       });
 
       it('should extend window.outbound with methods', function() {
-        var methods = ['identify', 'track'];
-        analytics.assert(!window.outbound);
-        analytics.initialize();
-        // FIXME: Why are we using for..in on an array?
-        for (var method in methods) {
-          if (methods.hasOwnProperty(method)) {
-            analytics.assert(window.outbound.methods[method]);
-          }
+        var methods = [
+          'identify',
+          'track',
+          'registerApnsToken',
+          'registerGcmToken',
+          'disableApnsToken',
+          'disableGcmToken',
+          'hasIdentified'
+        ];
+        for (var i = 0; i < methods.length; i++) {
+          analytics.assert(window.outbound.hasOwnProperty(methods[i]));
         }
       });
 
@@ -61,12 +63,6 @@ describe('Outbound', function() {
         analytics.initialize();
         analytics.called(outbound.load);
       });
-    });
-  });
-
-  describe('loading', function() {
-    it('should load', function(done) {
-      analytics.load(outbound, done);
     });
   });
 
@@ -131,7 +127,6 @@ describe('Outbound', function() {
 
       it('should accept anonymousId', function() {
         var anonymousId = 'anonymousId';
-
         analytics.identify(anonymousId);
         analytics.called(window.outbound.identify, anonymousId);
       });
@@ -139,6 +134,10 @@ describe('Outbound', function() {
 
     describe('#track', function() {
       beforeEach(function() {
+        // adding fake cookie for user identification
+        var date = new Date();
+        date.setTime(+ date + (10 * (24 * 60 * 60 * 1000))); // 10 days
+        document.cookie = '_ob_API_KEY=user123; expires=' + date.toGMTString() + '; path=/;';
         analytics.stub(window.outbound, 'track');
       });
 
