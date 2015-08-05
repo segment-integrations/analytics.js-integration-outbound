@@ -136,7 +136,7 @@ describe('Outbound', function() {
       beforeEach(function() {
         // adding fake cookie for user identification
         var date = new Date();
-        date.setTime(+ date + (10 * (24 * 60 * 60 * 1000))); // 10 days
+        date.setTime(date + 10 * 24 * 60 * 60 * 1000); // 10 days
         document.cookie = '_ob_API_KEY=user123; expires=' + date.toGMTString() + '; path=/;';
         analytics.stub(window.outbound, 'track');
       });
