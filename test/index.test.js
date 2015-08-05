@@ -139,6 +139,7 @@ describe('Outbound', function() {
         date.setTime(date + 10 * 24 * 60 * 60 * 1000); // 10 days
         document.cookie = '_ob_API_KEY=user123; expires=' + date.toGMTString() + '; path=/;';
         analytics.stub(window.outbound, 'track');
+        analytics.stub(window.outbound, 'identify');
       });
 
       it('should send an event', function() {
