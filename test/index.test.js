@@ -1,4 +1,4 @@
-
+'use strict';
 var Analytics = require('analytics.js-core').constructor;
 var integration = require('analytics.js-integration');
 var sandbox = require('clear-env');
@@ -137,7 +137,13 @@ describe('Outbound', function() {
         // adding fake cookie for user identification
         var date = new Date();
         date.setTime(date + 10 * 24 * 60 * 60 * 1000); // 10 days
-        document.cookie = '_ob_' + options.publicApiKey + '=user123; expires=' + date.toGMTString() + '; path=/;';
+        if (!document) {
+          window.document = {
+            cookie: '_ob_' + options.publicApiKey + '=user123; expires=' + date.toGMTString() + '; path=/;'
+          };
+        } else {
+          document.cookie = '_ob_' + options.publicApiKey + '=user123; expires=' + date.toGMTString() + '; path=/;';
+        }
         analytics.stub(window.outbound, 'track');
       });
 
