@@ -7,8 +7,8 @@
   "main": "lib/index.js",
   "dependencies": {
     "segmentio/analytics.js-integration": "^1.0.0",
+    "segmentio/facade": "^1.4.8",
     "ianstormtaylor/to-no-case": "0.1.3",
-    "ndhoule/includes": "^1.0.0",
     "ndhoule/foldl": "^1.0.3"
   },
   "development": {
