@@ -11,7 +11,8 @@ describe('Outbound', function() {
   var analytics;
   var outbound;
   var options = {
-    publicApiKey: 'pub-9cb1d6e54b003d5274e54a483ef741be'
+    publicApiKey: 'pub-9cb1d6e54b003d5274e54a483ef741be',
+    trackReferrer: false
   };
 
   beforeEach(function() {
@@ -168,6 +169,39 @@ describe('Outbound', function() {
       it('should alias a user', function() {
         analytics.alias('user123', 'actualUserId');
         analytics.called(window.outbound.identify, 'user123', { previousId: 'actualUserId' });
+      });
+    });
+
+    describe('#page', function() {
+      beforeEach(function() {
+        // adding fake cookie for user identification
+        var date = new Date();
+        date.setTime(date.getTime() + 10 * 24 * 60 * 60 * 1000); // 10 days
+        document.cookie = '_ob_' + options.publicApiKey + '=user123; expires=' + date.toGMTString() + '; path=/;';
+        analytics.stub(window.outbound, 'track');
+      });
+
+      it('should send a page event', function() {
+        analytics.page('event');
+        analytics.called(window.outbound.track, '[Segment Page] event', {
+          name: 'event',
+          path: '/context.html',
+          search: '',
+          title: '',
+          url: 'http://localhost:9876/context.html'
+        });
+      });
+
+      it('should send an event and properties', function() {
+        analytics.page('event', { property: true });
+        analytics.called(window.outbound.track, '[Segment Page] event', {
+          property: true,
+          name: 'event',
+          path: '/context.html',
+          search: '',
+          title: '',
+          url: 'http://localhost:9876/context.html'
+        });
       });
     });
   });
