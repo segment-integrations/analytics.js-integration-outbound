@@ -25,6 +25,7 @@ describe('Outbound', function() {
   afterEach(function() {
     analytics.restore();
     analytics.reset();
+    outbound.reset();
     sandbox();
   });
 
@@ -47,6 +48,7 @@ describe('Outbound', function() {
       });
 
       it('should extend window.outbound with methods', function() {
+        analytics.initialize();
         var methods = [
           'identify',
           'track',
