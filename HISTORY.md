@@ -1,3 +1,12 @@
+
+2.1.0 / 2016-08-11
+==================
+
+  * segment io <> outbound for page calls (#6)
+  * Stop window.outbound from leaking across test runs
+  * Move Sauce Labs credentials into circle.yml
+  * Update Karma to 1.1.0
+
 2.0.0 / 2016-06-21
 ==================
 
